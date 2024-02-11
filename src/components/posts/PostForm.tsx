@@ -23,9 +23,6 @@ export default function PostForm() {
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            console.log("🚀 ~ awaitaddDoc ~ email:", user?.email);
-            console.log("🚀 ~ awaitaddDoc ~ uid:", user?.uid);
-            console.log("🚀 ~ awaitaddDoc ~ content:", content);
             await addDoc(collection(db, "posts"), {
                 content,
                 createdAt: new Date()?.toLocaleDateString("ko", {
@@ -51,6 +48,7 @@ export default function PostForm() {
                 name="content"
                 id="content"
                 placeholder="What is happening"
+                value={content}
                 onChange={onChange}
             />
             <div className="post-form__submit-area">
