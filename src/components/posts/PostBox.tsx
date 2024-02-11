@@ -1,14 +1,26 @@
+import { AuthContext } from "context/AuthContext";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "firebaseApp";
 import { PostProps } from "pages/home";
+import { useContext } from "react";
 import { FaCircleUser, FaHeart, FaRegComment } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface PostBoxProps {
     post: PostProps;
 }
 
 export default function PostBox({ post }: PostBoxProps) {
-    const handleDelete = () => {
-        console.log("🚀 ~ handleDelete ~ handleDelete:", handleDelete);
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const handleDelete = async () => {
+        const ok = window.confirm("삭제 하시겠습니까?");
+        if (ok) {
+            await deleteDoc(doc(db, "posts", post.id));
+            toast.success("게시글 삭제");
+            navigate("/");
+        }
     };
     return (
         <div className="post__box" key={post.id}>
@@ -31,14 +43,16 @@ export default function PostBox({ post }: PostBoxProps) {
                 </div>
             </Link>
             <div className="post__box-footer">
-                <>
-                    <button type="button" className="post__delete" onClick={handleDelete}>
-                        Delete
-                    </button>
-                    <button type="button" className="post__edit">
-                        <Link to={`/posts/edit/${post.id}`}>Edit</Link>
-                    </button>
-                </>
+                {user?.uid === post.uid && (
+                    <>
+                        <button type="button" className="post__delete" onClick={handleDelete}>
+                            Delete
+                        </button>
+                        <button type="button" className="post__edit">
+                            <Link to={`/posts/edit/${post.id}`}>Edit</Link>
+                        </button>
+                    </>
+                )}
                 <button type="button" className="post__likes">
                     <FaHeart />
                     {post?.likeCount || 0}
