@@ -1,8 +1,11 @@
 import { AuthContext } from "context/AuthContext";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "firebaseApp";
 import { PostProps } from "pages/home";
 import { useContext } from "react";
 import { FaCircleUser, FaHeart, FaRegComment } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface PostBoxProps {
     post: PostProps;
@@ -10,8 +13,14 @@ interface PostBoxProps {
 
 export default function PostBox({ post }: PostBoxProps) {
     const { user } = useContext(AuthContext);
-    const handleDelete = () => {
-        console.log("🚀 ~ handleDelete ~ handleDelete:", handleDelete);
+    const navigate = useNavigate();
+    const handleDelete = async () => {
+        const ok = window.confirm("삭제 하시겠습니까?");
+        if (ok) {
+            await deleteDoc(doc(db, "posts", post.id));
+            toast.success("게시글 삭제");
+            navigate("/");
+        }
     };
     return (
         <div className="post__box" key={post.id}>
