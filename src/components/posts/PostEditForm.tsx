@@ -167,7 +167,7 @@ export default function PostEditForm() {
                             type="file"
                             name="file-input"
                             id="file-input"
-                            accept="images/*"
+                            accept="image/*"
                             onChange={handleFileUpload}
                             className="hidden"
                         />
