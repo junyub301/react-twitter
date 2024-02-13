@@ -1,6 +1,7 @@
 import { AuthContext } from "context/AuthContext";
 import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "firebaseApp";
+import { deleteObject, ref } from "firebase/storage";
+import { db, storage } from "firebaseApp";
 import { PostProps } from "pages/home";
 import { useContext } from "react";
 import { FaCircleUser, FaHeart, FaRegComment } from "react-icons/fa6";
@@ -17,6 +18,13 @@ export default function PostBox({ post }: PostBoxProps) {
     const handleDelete = async () => {
         const ok = window.confirm("삭제 하시겠습니까?");
         if (ok) {
+            const imageRef = ref(storage, post?.imageUrl);
+            if (post.imageUrl) {
+                deleteObject(imageRef)
+                    .then(() => console.log("삭제"))
+                    .catch((error) => console.error(error));
+            }
+
             await deleteDoc(doc(db, "posts", post.id));
             toast.success("게시글 삭제");
             navigate("/");
@@ -40,6 +48,17 @@ export default function PostBox({ post }: PostBoxProps) {
                         <div className="post__createdAt">{post.createdAt}</div>
                     </div>
                     <div className="post__box-content">{post.content}</div>
+                    {post?.imageUrl && (
+                        <div className="post__image-div">
+                            <img
+                                src={post.imageUrl}
+                                alt="post_image"
+                                className="post__image"
+                                width={100}
+                                height={100}
+                            />
+                        </div>
+                    )}
                     <div className="post-form__hashtags-outputs">
                         {post?.hashTags?.map((tag, index) => (
                             <span className="post-form__hashtags-tag" key={index}>
