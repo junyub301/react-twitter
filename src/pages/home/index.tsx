@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore";
 import { AuthContext } from "context/AuthContext";
 import { db } from "firebaseApp";
+import { CommentProps } from "components/comments/CommentBox";
 
 export interface PostProps {
     id: string;
@@ -14,7 +15,7 @@ export interface PostProps {
     profileUrl?: string;
     likes?: string[];
     likeCount?: number;
-    comments?: any[];
+    comments?: CommentProps[];
     hashTags?: string[];
     imageUrl?: string;
 }
