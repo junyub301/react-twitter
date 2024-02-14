@@ -1,7 +1,7 @@
 import PostBox from "components/posts/PostBox";
 import PostForm from "components/posts/PostForm";
 import { useContext, useEffect, useState } from "react";
-import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore";
+import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import { AuthContext } from "context/AuthContext";
 import { db } from "firebaseApp";
 import { CommentProps } from "components/comments/CommentBox";

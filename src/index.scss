@@ -132,7 +132,6 @@ body {
 
     &__tabs {
         background-color: transparent;
-
         width: 100%;
         display: grid;
         grid-template-columns: repeat((2, minmax(0, 1fr)));
@@ -140,7 +139,6 @@ body {
 
     &__tab {
         background-color: transparent;
-
         text-align: center;
         font-weight: 500;
         padding: 16px;
@@ -179,7 +177,7 @@ body {
     }
     &__attachment {
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         gap: 16px;
     }
     &__clear-btn {

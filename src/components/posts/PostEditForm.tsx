@@ -36,7 +36,7 @@ export default function PostEditForm() {
         if (id) {
             getPost();
         }
-    }, [getPost]);
+    }, [getPost, id]);
 
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const {
