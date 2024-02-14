@@ -1,10 +1,11 @@
 import { AuthContext } from "context/AuthContext";
-import { deleteDoc, doc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { db, storage } from "firebaseApp";
 import { PostProps } from "pages/home";
 import { useContext } from "react";
 import { FaCircleUser, FaHeart, FaRegComment } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -28,6 +29,21 @@ export default function PostBox({ post }: PostBoxProps) {
             await deleteDoc(doc(db, "posts", post.id));
             toast.success("게시글 삭제");
             navigate("/");
+        }
+    };
+
+    const toggleLike = async () => {
+        const postRef = doc(db, "posts", post.id);
+        if (user?.uid && post.likes?.includes(user.uid)) {
+            await updateDoc(postRef, {
+                likes: arrayRemove(user.uid),
+                likeCount: post?.likeCount ? post.likeCount - 1 : 0,
+            });
+        } else {
+            await updateDoc(postRef, {
+                likes: arrayUnion(user?.uid),
+                likeCount: post?.likeCount ? post.likeCount + 1 : 1,
+            });
         }
     };
     return (
@@ -79,8 +95,8 @@ export default function PostBox({ post }: PostBoxProps) {
                         </button>
                     </>
                 )}
-                <button type="button" className="post__likes">
-                    <FaHeart />
+                <button type="button" className="post__likes" onClick={toggleLike}>
+                    {user && post?.likes?.includes(user.uid) ? <FaHeart /> : <FaRegHeart />}
                     {post?.likeCount || 0}
                 </button>
                 <button type="button" className="post__comments">
