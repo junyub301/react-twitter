@@ -24,7 +24,7 @@ export default function ProfileEdit() {
         if (user?.displayName) {
             setDisplayName(user.displayName);
         }
-    }, [user?.photoURL]);
+    }, [user?.photoURL, user?.displayName]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {
