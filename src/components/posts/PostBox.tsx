@@ -8,6 +8,7 @@ import { FaCircleUser, FaHeart, FaRegComment } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import FollowingBox from "components/following/FollowingBox";
 
 interface PostBoxProps {
     post: PostProps;
@@ -48,21 +49,26 @@ export default function PostBox({ post }: PostBoxProps) {
     };
     return (
         <div className="post__box" key={post.id}>
-            <Link to={`/posts/${post.id}`}>
-                <div className="post__box-profile">
-                    <div className="post__flex">
-                        {post?.profileUrl ? (
-                            <img
-                                src={post?.profileUrl}
-                                alt="profile"
-                                className="post__box-profile-img"
-                            />
-                        ) : (
-                            <FaCircleUser className="post__box-profile-icon" />
-                        )}
-                        <div className="post__email">{post.email}</div>
-                        <div className="post__createdAt">{post.createdAt}</div>
+            <div className="post__box-profile">
+                <div className="post__flex">
+                    {post?.profileUrl ? (
+                        <img
+                            src={post?.profileUrl}
+                            alt="profile"
+                            className="post__box-profile-img"
+                        />
+                    ) : (
+                        <FaCircleUser className="post__box-profile-icon" />
+                    )}
+                    <div className="post__flex--between">
+                        <div className="post__flex">
+                            <div className="post__email">{post.email}</div>
+                            <div className="post__createdAt">{post.createdAt}</div>
+                        </div>
+                        <FollowingBox post={post} />
                     </div>
+                </div>
+                <Link to={`/posts/${post.id}`}>
                     <div className="post__box-content">{post.content}</div>
                     {post?.imageUrl && (
                         <div className="post__image-div">
@@ -82,8 +88,8 @@ export default function PostBox({ post }: PostBoxProps) {
                             </span>
                         ))}
                     </div>
-                </div>
-            </Link>
+                </Link>
+            </div>
             <div className="post__box-footer">
                 {user?.uid === post.uid && (
                     <>
