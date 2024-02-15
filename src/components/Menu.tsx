@@ -8,6 +8,7 @@ import { getAuth, signOut } from "@firebase/auth";
 import { app } from "firebaseApp";
 import { toast } from "react-toastify";
 import { AiOutlineSearch } from "react-icons/ai";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 export default function MenuList() {
     const { user } = useContext(AuthContext);
@@ -51,6 +52,15 @@ export default function MenuList() {
                 >
                     <AiOutlineSearch />
                     Search
+                </button>
+                <button
+                    type="button"
+                    onClick={() => {
+                        navigate("/notifications");
+                    }}
+                >
+                    <IoMdNotificationsOutline />
+                    Notification
                 </button>
                 {user === null ? (
                     <button
