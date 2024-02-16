@@ -9,6 +9,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FollowingBox from "components/following/FollowingBox";
+import useTranslation from "hooks/useTranslation";
 
 interface PostBoxProps {
     post: PostProps;
@@ -17,6 +18,7 @@ interface PostBoxProps {
 export default function PostBox({ post }: PostBoxProps) {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const t = useTranslation();
     const handleDelete = async () => {
         const ok = window.confirm("삭제 하시겠습니까?");
         if (ok) {
@@ -94,10 +96,10 @@ export default function PostBox({ post }: PostBoxProps) {
                 {user?.uid === post.uid && (
                     <>
                         <button type="button" className="post__delete" onClick={handleDelete}>
-                            Delete
+                            {t("BUTTON_DELETE")}
                         </button>
                         <button type="button" className="post__edit">
-                            <Link to={`/posts/edit/${post.id}`}>Edit</Link>
+                            <Link to={`/posts/edit/${post.id}`}>{t("BUTTON_EDIT")}</Link>
                         </button>
                     </>
                 )}

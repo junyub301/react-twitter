@@ -2,6 +2,7 @@ import PostBox from "components/posts/PostBox";
 import { AuthContext } from "context/AuthContext";
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { PostProps } from "pages/home";
 import { useContext, useEffect, useState } from "react";
 
@@ -9,6 +10,7 @@ export default function Search() {
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [tagQuery, setTagQuery] = useState<string>("");
     const { user } = useContext(AuthContext);
+    const t = useTranslation();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {
@@ -40,13 +42,13 @@ export default function Search() {
         <div className="home">
             <div className="home__top">
                 <div className="home__title">
-                    <div className="home__title-text">Search</div>
+                    <div className="home__title-text">{t("MENU_SEARCH")}</div>
                 </div>
                 <div className="home__search-div">
                     <input
                         type="text"
                         className="home__search"
-                        placeholder="해시태그 검색"
+                        placeholder={t("SEARCH_HASHTAGS")}
                         value={tagQuery}
                         onChange={onChange}
                     />

@@ -3,6 +3,7 @@ import { deleteObject, getDownloadURL, ref, uploadString } from "@firebase/stora
 import PostHeader from "components/posts/PostHeader";
 import { AuthContext } from "context/AuthContext";
 import { storage } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { useContext, useEffect, useState } from "react";
 import { FiImage } from "react-icons/fi";
 import { useNavigate } from "react-router";
@@ -16,6 +17,7 @@ export default function ProfileEdit() {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const t = useTranslation();
 
     useEffect(() => {
         if (user?.photoURL) {
@@ -92,7 +94,7 @@ export default function ProfileEdit() {
                         type="text"
                         name="displayName"
                         className="post-form__input"
-                        placeholder="이름"
+                        placeholder={t("NAME_PLACEHOLDER")}
                         onChange={onChange}
                         value={displayName}
                     />
@@ -104,7 +106,7 @@ export default function ProfileEdit() {
                                 onClick={handleDeleteImage}
                                 className="post-form__clear-btn"
                             >
-                                삭제
+                                {t("BUTTON_DELETE")}
                             </button>
                         </div>
                     )}
@@ -123,7 +125,11 @@ export default function ProfileEdit() {
                         onChange={handleFileUpload}
                         className="hidden"
                     />
-                    <input type="submit" value="프로필 수정" className="post-form__submit-btn" />
+                    <input
+                        type="submit"
+                        value={t("BUTTON_EDIT_PROFILE")}
+                        className="post-form__submit-btn"
+                    />
                 </div>
             </form>
         </div>

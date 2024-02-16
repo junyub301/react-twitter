@@ -2,6 +2,7 @@ import NotificationBox from "components/notifications/NotificationBox";
 import { AuthContext } from "context/AuthContext";
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { useContext, useEffect, useState } from "react";
 
 export interface Notification {
@@ -16,6 +17,7 @@ export interface Notification {
 export default function Notifications() {
     const { user } = useContext(AuthContext);
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const t = useTranslation();
 
     useEffect(() => {
         if (user) {
@@ -37,7 +39,7 @@ export default function Notifications() {
         <div className="home">
             <div className="home__top">
                 <div className="home__title">
-                    <div className="home__title-text">Notification</div>
+                    <div className="home__title-text">{t("MENU_NOTI")}</div>
                 </div>
             </div>
             <div className="post">
@@ -47,7 +49,7 @@ export default function Notifications() {
                     ))
                 ) : (
                     <div className="post__no-posts">
-                        <div className="post__text">알림이 없습니다.</div>
+                        <div className="post__text">{t("NO_NOTIFICATIONS")}</div>
                     </div>
                 )}
             </div>

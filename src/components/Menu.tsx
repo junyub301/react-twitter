@@ -9,11 +9,12 @@ import { app } from "firebaseApp";
 import { toast } from "react-toastify";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import useTranslation from "hooks/useTranslation";
 
 export default function MenuList() {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const t = useTranslation();
     const logOut = async () => {
         try {
             const auth = getAuth(app);
@@ -33,7 +34,7 @@ export default function MenuList() {
                     }}
                 >
                     <BsHouse />
-                    Home
+                    {t("MENU_HOME")}
                 </button>
                 <button
                     type="button"
@@ -42,7 +43,7 @@ export default function MenuList() {
                     }}
                 >
                     <FaCircleUser />
-                    Profile
+                    {t("MENU_PROFILE")}
                 </button>
                 <button
                     type="button"
@@ -51,7 +52,7 @@ export default function MenuList() {
                     }}
                 >
                     <AiOutlineSearch />
-                    Search
+                    {t("MENU_SEARCH")}
                 </button>
                 <button
                     type="button"
@@ -60,7 +61,7 @@ export default function MenuList() {
                     }}
                 >
                     <IoMdNotificationsOutline />
-                    Notification
+                    {t("MENU_NOTI")}
                 </button>
                 {user === null ? (
                     <button
@@ -70,12 +71,12 @@ export default function MenuList() {
                         }}
                     >
                         <MdLogin />
-                        Login
+                        {t("MENU_LOGIN")}
                     </button>
                 ) : (
                     <button type="button" onClick={logOut}>
                         <MdLogout />
-                        Logout
+                        {t("MENU_LOGOUT")}
                     </button>
                 )}
             </div>
