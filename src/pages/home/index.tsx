@@ -5,6 +5,7 @@ import { collection, query, onSnapshot, orderBy, doc, where } from "firebase/fir
 import { AuthContext } from "context/AuthContext";
 import { db } from "firebaseApp";
 import { CommentProps } from "components/comments/CommentBox";
+import useTranslation from "hooks/useTranslation";
 
 export interface PostProps {
     id: string;
@@ -28,7 +29,7 @@ export default function Home() {
     const [followingIds, setFollowingIds] = useState<string[]>([""]);
     const [activeTab, setActiveTap] = useState<tabType>("all");
     const { user } = useContext(AuthContext);
-
+    const t = useTranslation();
     const getFollowingIds = useCallback(() => {
         if (user?.uid) {
             const ref = doc(db, "following", user.uid);
@@ -69,7 +70,7 @@ export default function Home() {
     return (
         <div className="home">
             <div className="home__top">
-                <div className="home__title">Home</div>
+                <div className="home__title">{t("MENU_HOME")}</div>
                 <div className="home__tabs">
                     <div
                         className={`home__tab ${activeTab === "all" ? "home__tab--active" : ""}`}
@@ -77,7 +78,7 @@ export default function Home() {
                             setActiveTap("all");
                         }}
                     >
-                        For You
+                        {t("TAB_ALL")}
                     </div>
                     <div
                         className={`home__tab ${
@@ -87,7 +88,7 @@ export default function Home() {
                             setActiveTap("following");
                         }}
                     >
-                        Following
+                        {t("TAB_FOLLOWING")}
                     </div>
                 </div>
             </div>
@@ -98,7 +99,7 @@ export default function Home() {
                         posts.map((post) => <PostBox post={post} key={post.id} />)
                     ) : (
                         <div className="post__no-posts">
-                            <div className="post__text">게시글이 없습니다.</div>
+                            <div className="post__text">{t("NO_POSTS")}</div>
                         </div>
                     )}
                 </div>
@@ -109,7 +110,7 @@ export default function Home() {
                         followingPost.map((post) => <PostBox post={post} key={post.id} />)
                     ) : (
                         <div className="post__no-posts">
-                            <div className="post__text">게시글이 없습니다.</div>
+                            <div className="post__text">{t("NO_POSTS")}</div>
                         </div>
                     )}
                 </div>

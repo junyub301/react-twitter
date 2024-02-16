@@ -1,10 +1,13 @@
 import { collection, onSnapshot, orderBy, query, where } from "@firebase/firestore";
+import { languagesState } from "atom";
 import PostBox from "components/posts/PostBox";
 import { AuthContext } from "context/AuthContext";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { PostProps } from "pages/home";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
 
 const DEFAULT_PROFILE = "/logo192.png";
 type TabType = "my" | "like";
@@ -15,6 +18,8 @@ export default function Profile() {
     const [likePosts, setLikePosts] = useState<PostProps[]>([]);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [language, setLanguage] = useRecoilState(languagesState);
+    const t = useTranslation();
     useEffect(() => {
         if (user) {
             let postRef = collection(db, "posts");
@@ -40,10 +45,15 @@ export default function Profile() {
         }
     }, [user]);
 
+    const onClickLanguage = () => {
+        setLanguage(language === "ko" ? "en" : "ko");
+        localStorage.setItem("language", language === "ko" ? "en" : "ko");
+    };
+
     return (
         <div className="home">
             <div className="home__top">
-                <div className="home__title">Profile</div>
+                <div className="home__title">{t("MENU_PROFILE")}</div>
                 <div className="profile">
                     <img
                         src={user?.photoURL || DEFAULT_PROFILE}
@@ -52,16 +62,25 @@ export default function Profile() {
                         width={100}
                         height={100}
                     />
-                    <button
-                        className="profile__btn"
-                        type="button"
-                        onClick={() => navigate("/profile/edit")}
-                    >
-                        프로필 수정
-                    </button>
+                    <div className="profile__flex">
+                        <button
+                            className="profile__btn"
+                            type="button"
+                            onClick={() => navigate("/profile/edit")}
+                        >
+                            {t("BUTTON_EDIT_PROFILE")}
+                        </button>
+                        <button
+                            className="profile__btn--language"
+                            type="button"
+                            onClick={onClickLanguage}
+                        >
+                            {language === "ko" ? "한국어" : "English"}
+                        </button>
+                    </div>
                 </div>
                 <div className="profile__text">
-                    <div className="profile__name">{user?.displayName || "사용자님"}</div>
+                    <div className="profile__name">{user?.displayName || t("PROFILE_NAME")}</div>
                     <div className="profile__email">{user?.email}</div>
                 </div>
                 <div className="home__tabs">
@@ -71,7 +90,7 @@ export default function Profile() {
                             setActiveTab("my");
                         }}
                     >
-                        For You
+                        {t("TAB_MY")}
                     </div>
                     <div
                         className={`home__tab ${activeTab === "like" ? "home__tab--active" : ""}`}
@@ -79,7 +98,7 @@ export default function Profile() {
                             setActiveTab("like");
                         }}
                     >
-                        Likes
+                        {t("TAB_LIKES")}
                     </div>
                 </div>
             </div>
@@ -89,7 +108,7 @@ export default function Profile() {
                         myPosts.map((post) => <PostBox post={post} key={post.id} />)
                     ) : (
                         <div className="post__no-posts">
-                            <div className="post__text">게시글이 없습니다.</div>
+                            <div className="post__text">{t("NO_POSTS")}</div>
                         </div>
                     )}
                 </div>
@@ -100,7 +119,7 @@ export default function Profile() {
                         likePosts.map((post) => <PostBox post={post} key={post.id} />)
                     ) : (
                         <div className="post__no-posts">
-                            <div className="post__text">게시글이 없습니다.</div>
+                            <div className="post__text">{t("NO_POSTS")}</div>
                         </div>
                     )}
                 </div>
