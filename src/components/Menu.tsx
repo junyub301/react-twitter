@@ -34,7 +34,7 @@ export default function MenuList() {
                     }}
                 >
                     <BsHouse />
-                    {t("MENU_HOME")}
+                    <span className="footer__grid--text">{t("MENU_HOME")}</span>
                 </button>
                 <button
                     type="button"
@@ -43,7 +43,7 @@ export default function MenuList() {
                     }}
                 >
                     <FaCircleUser />
-                    {t("MENU_PROFILE")}
+                    <span className="footer__grid--text">{t("MENU_PROFILE")}</span>
                 </button>
                 <button
                     type="button"
@@ -52,7 +52,7 @@ export default function MenuList() {
                     }}
                 >
                     <AiOutlineSearch />
-                    {t("MENU_SEARCH")}
+                    <span className="footer__grid--text">{t("MENU_SEARCH")}</span>
                 </button>
                 <button
                     type="button"
@@ -61,7 +61,7 @@ export default function MenuList() {
                     }}
                 >
                     <IoMdNotificationsOutline />
-                    {t("MENU_NOTI")}
+                    <span className="footer__grid--text">{t("MENU_NOTI")}</span>
                 </button>
                 {user === null ? (
                     <button
@@ -76,7 +76,7 @@ export default function MenuList() {
                 ) : (
                     <button type="button" onClick={logOut}>
                         <MdLogout />
-                        {t("MENU_LOGOUT")}
+                        <span className="footer__grid--text">{t("MENU_LOGOUT")}</span>
                     </button>
                 )}
             </div>
