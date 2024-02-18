@@ -122,7 +122,7 @@ export default function LoginForm() {
             </div>
             <div className="form__block">
                 <button className="form__btn-submit" type="submit" disabled={error.length > 0}>
-                    {t("SIGNUP_LINK")}
+                    {t("SIGNIN_LINK")}
                 </button>
             </div>
             <div className="form__block">
